@@ -76,10 +76,6 @@ Maintenant qu'on a une idée un peu plus claire (j'espère) de l'organisation du
 
 Tout ça se fait pour chaque "composant" du projet, ce ne sont pas des blocs à faire successivement.
 
- ### Exemple : 
-
-
-
 ## Sources :
 
 1. ChatGPT (le goat) pour "traduire" les informations des sources ci-dessous
