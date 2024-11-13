@@ -42,7 +42,7 @@ On l'utilise pour s'assurer que seules les view enregistrées avec un routing so
 
 ### 3. ```src/Router/View/BaseView.php```
 
-Ce fichier à pour but de définir 
+Ce fichier à pour but de définir un standard d'interface d'affichages (Views), une sorte de base sur laquelle se reposeront nos différentes Views.
 
 ### 4. ```src/Router/Request.php```
 
