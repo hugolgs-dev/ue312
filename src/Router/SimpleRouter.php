@@ -26,7 +26,28 @@ class Route
 
     public function call(Request $request, ?Renderer $engine): Response
     {
-        // TODO
+        // Vérifie que la classe existe
+        if (!class_exists($this->view)) {
+            throw new \RuntimeException("La classe {$this->view} n'existe pas.");
+        }
+
+        // Vérifie que la classe est une sous-classe de BaseView
+        $reflect = new \ReflectionClass($this->view);
+        if (!$reflect->isSubclassOf(self::VIEW_CLASS)) {
+            throw new \RuntimeException("La classe {$this->view} doit hériter de " . self::VIEW_CLASS);
+        }
+
+        // Crée une instance de la vue
+        $viewInstance = new $this->view();
+
+        // Vérifie et appelle la méthode render
+        if (!method_exists($viewInstance, self::VIEW_RENDER_FUNC)) {
+            throw new \RuntimeException("La vue {$this->view} doit implémenter la méthode " . self::VIEW_RENDER_FUNC);
+        }
+        $content = $viewInstance->{self::VIEW_RENDER_FUNC}($request);
+
+        // Crée et retourne la réponse HTTP
+        return new Response($content);
     }
 }
 
