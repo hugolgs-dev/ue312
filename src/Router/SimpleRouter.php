@@ -32,19 +32,29 @@ class Route
 
 class SimpleRouter implements Router
 {
-    private Renderer $engine;
+    private Renderer $engine; //propriété
 
     public function __construct(Renderer $engine)
     {
+        // On vérifie que l'objet passé ($engine) est bien une instance de la classe Renderer
+        $reflect = new \ReflectionClass($engine);
+        $engineClass = $reflect->getName();
+
+        // Si l'objet n'est pas une sous-classe de Renderer, on lance une exception pour signaler l'erreur
+        if (!$reflect->isSubclassOf(Renderer::class)) {
+            throw new \InvalidArgumentException("L'objet passé doit être une instance de Renderer, mais c'est une instance de $engineClass.");
+        }
+
+        // Si tout est correct, on enregistre l'objet Renderer dans une propriété pour l'utiliser dans la classe
         $this->engine = $engine;
-        // TODO
     }
 
+    // Enregistre une route avec une vue ou un contrôleur.
     public function register(string $path, string|object $class_or_view)
     {
         // TODO
     }
-
+    // Exécute l'action associée à une route
     public function serve(mixed ...$args): void
     {
         // TODO
