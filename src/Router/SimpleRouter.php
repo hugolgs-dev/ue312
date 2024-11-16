@@ -52,11 +52,16 @@ class SimpleRouter implements Router
     // Enregistre une route avec une vue ou un contrôleur.
     public function register(string $path, string|object $class_or_view)
     {
-        // TODO
+        // Permet de verifier si une meme route a deja été donné
+        if (isset($this->routes[$path])) {
+            throw new \InvalidArgumentException("Une route existe pour : $path.");
+        }
+        // Permet l'enregistrement de la route
+        $this->routes[$path] = new Route($class_or_view);
     }
     // Exécute l'action associée à une route
     public function serve(mixed ...$args): void
-    {
+    {   
         // TODO
     }
 }
