@@ -62,7 +62,13 @@ class SimpleRouter implements Router
     // Exécute l'action associée à une route
     public function serve(mixed ...$args): void
     {   
-        // TODO
+        //Recuperation de l'url avec une variable superglobale
+        $path = $_SERVER['REQUEST_URI'];
+        //Verification si la route existe dans les route enregistrées précédement
+        if (!isset(routes[$path])) {
+            throw new \InvalidArgumentException("La route n'a pas été trouvée pour : $path. ");
+        }
+
     }
 }
 
