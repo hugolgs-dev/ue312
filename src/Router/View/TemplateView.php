@@ -17,5 +17,6 @@ class TemplateView extends BaseView
     public function render(Request $request): Response
     {
         // TODO: Implement render() method.
+
     }
 }
