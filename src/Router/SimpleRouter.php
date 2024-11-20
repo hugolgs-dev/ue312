@@ -68,6 +68,8 @@ class SimpleRouter implements Router
         if (!isset(routes[$path])) {
             throw new \InvalidArgumentException("La route n'a pas été trouvée pour : $path. ");
         }
+        $response = $route->call(new Request($args), $this->engine);
+        $this->sendResponse($response);
 
     }
 }
