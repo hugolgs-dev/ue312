@@ -1,16 +1,8 @@
-<<<<<<< HEAD
 <?php declare(strict_types=1);
 
 namespace Framework312\Router\View;
 
 use Framework312\Router\Exception as RouterException;
-use Framework312\Router\Request;
-use Symfony\Component\HttpFoundation\Response;
-=======
-<?php
-
-namespace Framework312\Router\View;
-
 use Framework312\Router\Request;
 use Framework312\Router\View\BaseView;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -45,4 +37,4 @@ class JSONView extends BaseView
         return new JsonResponse($data, Response::HTTP_OK);
     }
 }
->>>>>>> 083d0bc0bff4052680f242d7f3908543fe4466f0
+
