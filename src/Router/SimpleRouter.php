@@ -25,30 +25,35 @@ class Route
     }
 
     public function call(Request $request, ?Renderer $engine): Response
-    {
-        // Vérifie que la classe existe
-        if (!class_exists($this->view)) {
-            throw new \RuntimeException("La classe {$this->view} n'existe pas.");
-        }
+{
+    // Vérifie si la classe existe et si elle est une sous-classe de BaseView
+    $reflect = new \ReflectionClass($this->view);
 
-        // Vérifie que la classe est une sous-classe de BaseView
-        $reflect = new \ReflectionClass($this->view);
-        if (!$reflect->isSubclassOf(self::VIEW_CLASS)) {
-            throw new \RuntimeException("La classe {$this->view} doit hériter de " . self::VIEW_CLASS);
-        }
-
-        // Crée une instance de la vue
-        $viewInstance = new $this->view();
-
-        // Vérifie et appelle la méthode render
-        if (!method_exists($viewInstance, self::VIEW_RENDER_FUNC)) {
-            throw new \RuntimeException("La vue {$this->view} doit implémenter la méthode " . self::VIEW_RENDER_FUNC);
-        }
-        $content = $viewInstance->{self::VIEW_RENDER_FUNC}($request);
-
-        // Crée et retourne la réponse HTTP
-        return new Response($content);
+    if (!$reflect->isSubclassOf(self::VIEW_CLASS)) {
+        throw new \RuntimeException("La classe {$this->view} doit hériter de " . self::VIEW_CLASS);
     }
+
+    // Crée une instance de la vue
+    $viewInstance = new $this->view();
+
+    // Vérifie que la méthode render existe
+    if (!method_exists($viewInstance, self::VIEW_RENDER_FUNC)) {
+        throw new \RuntimeException("La vue {$this->view} doit implémenter la méthode " . self::VIEW_RENDER_FUNC);
+    }
+
+    // Appelle la méthode render et récupère le contenu
+    $content = $viewInstance->{self::VIEW_RENDER_FUNC}($request);
+
+    // Si le contenu est déjà une instance de Response, on la retourne directement
+    if ($content instanceof Response) {
+        return $content;
+    }
+
+    // Crée et retourne la réponse HTTP avec le contenu
+    return new Response($content);
+}
+
+    
 }
 
 class SimpleRouter implements Router
