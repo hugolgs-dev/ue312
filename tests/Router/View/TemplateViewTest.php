@@ -1,14 +1,16 @@
 <?php
 
-use PHPUnit\Framework\TestCase;
+namespace Router\View;
+
 use Framework312\Router\Request;
 use Framework312\Router\View\TemplateView;
+use PHPUnit\Framework\TestCase;
 use Symfony\Component\HttpFoundation\Response;
-use Twig\Environment as TwigRenderer;
 
-class TemplateViewTest extends TestCase {
+class TemplateViewTest extends TestCase
+{
 
-    public function testRenderReturnTemplateView() : void
+    public function testRenderReturnTemplateView(): void
     {
         $request = new Request();
 
