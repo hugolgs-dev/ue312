@@ -29,7 +29,6 @@ class TemplateViewTest extends TestCase
         $response = $view->render($request);
 
         // Assertions
-
         $this->assertInstanceOf(Response::class, $response);
 
         $this->assertEquals('<html><body>Ça fonctionne!</body></html>', $response->getContent());
