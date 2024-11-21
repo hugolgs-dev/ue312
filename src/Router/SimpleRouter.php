@@ -62,7 +62,22 @@ class SimpleRouter implements Router
     // Exécute l'action associée à une route
     public function serve(mixed ...$args): void
     {   
-        // TODO
+
+    // On peut aussi utiliser directement le service Request si disponible
+    $request = Request::createFromGlobals();
+    $path = $request->getPathInfo();  // Récupère uniquement le chemin de l'URL sans le domaine
+
+    // Verification de la route 
+    if (!isset($this->routes[$path])) {
+        throw new RouterException\RouteNotFoundException("La route '$path' n'a pas été trouvé.");
+    }
+
+    // Obtenir la route et exécuter la méthode call()
+    $route = $this->routes[$path];
+    $response = $route->call($request, $this->engine);
+
+    // Envoyer la réponse HTTP
+    $response->send();
     }
 }
 
