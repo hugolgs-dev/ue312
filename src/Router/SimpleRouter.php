@@ -32,22 +32,52 @@ class Route
 
 class SimpleRouter implements Router
 {
-    private Renderer $engine;
+    private Renderer $engine; //propriété
 
     public function __construct(Renderer $engine)
     {
+        // On vérifie que l'objet passé ($engine) est bien une instance de la classe Renderer
+        $reflect = new \ReflectionClass($engine);
+        $engineClass = $reflect->getName();
+
+        // Si l'objet n'est pas une sous-classe de Renderer, on lance une exception pour signaler l'erreur
+        if (!$reflect->isSubclassOf(Renderer::class)) {
+            throw new \InvalidArgumentException("L'objet passé doit être une instance de Renderer, mais c'est une instance de $engineClass.");
+        }
+
+        // Si tout est correct, on enregistre l'objet Renderer dans une propriété pour l'utiliser dans la classe
         $this->engine = $engine;
-        // TODO
     }
 
+    // Enregistre une route avec une vue ou un contrôleur.
     public function register(string $path, string|object $class_or_view)
     {
-        // TODO
+        // Permet de verifier si une meme route a deja été donné
+        if (isset($this->routes[$path])) {
+            throw new \InvalidArgumentException("Une route existe pour : $path.");
+        }
+        // Permet l'enregistrement de la route
+        $this->routes[$path] = new Route($class_or_view);
+    }
+    // Exécute l'action associée à une route
+    public function serve(mixed ...$args): void
+    {   
+
+    // Obtenir la requête HTTP depuis Symfony
+    $request = Request::createFromGlobals();
+    $path = $request->getPathInfo();  // Récupère uniquement le chemin de l'URL sans le domaine
+
+    // Verification de la route 
+    if (!isset($this->routes[$path])) {
+        throw new RouterException\RouteNotFoundException("La route '$path' n'a pas été trouvé.");
     }
 
-    public function serve(mixed ...$args): void
-    {
-        // TODO
+    // Obtenir la route et exécuter la méthode call()
+    $route = $this->routes[$path];
+    $response = $route->call($request, $this->engine);
+
+    // Envoyer la réponse HTTP
+    $response->send();
     }
 }
 
