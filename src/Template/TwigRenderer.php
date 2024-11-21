@@ -9,9 +9,20 @@ class TwigRenderer implements Renderer
 {
     private Environment $twig;
 
+    //Initialise Twig avec le chemin des fichiers templates
     public function __construct(string $templatePath)
     {
-        // TODO: Initialiser l'instance de Twig (Environment et FilesystemLoader).
+        // Charger les fichiers de template depuis $templatePath
+        $loader = new FilesystemLoader($templatePath);
+
+        // Initialiser Twig avec ce chargeur
+        $this->twig = new Environment($loader);
+    }
+
+    // SERT UNIQUEMENT POUR TESTER CONSTRUCT
+    public function getTwig(): \Twig\Environment
+    {
+        return $this->twig;
     }
 
     public function render(mixed $data, string $template): string
