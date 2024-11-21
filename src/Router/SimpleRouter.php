@@ -63,7 +63,7 @@ class SimpleRouter implements Router
     public function serve(mixed ...$args): void
     {   
 
-    // On peut aussi utiliser directement le service Request si disponible
+    // Obtenir la requête HTTP depuis Symfony
     $request = Request::createFromGlobals();
     $path = $request->getPathInfo();  // Récupère uniquement le chemin de l'URL sans le domaine
 
