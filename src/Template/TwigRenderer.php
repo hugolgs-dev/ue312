@@ -26,9 +26,19 @@ class TwigRenderer implements Renderer
     }
 
     public function render(mixed $data, string $template): string
-    {
-        // TODO: Utiliser l'instance de Twig pour rendre le template avec les données.
+{
+    try {
+        // Utilisation de Twig pour charger et rendre le template avec les données
+        return $this->twig->render($template, (array) $data);
+    } catch (\Twig\Error\LoaderError $e) {
+        throw new \RuntimeException("Erreur de chargement du template : {$e->getMessage()}", 0, $e);
+    } catch (\Twig\Error\RuntimeError $e) {
+        throw new \RuntimeException("Erreur à l'exécution du template : {$e->getMessage()}", 0, $e);
+    } catch (\Twig\Error\SyntaxError $e) {
+        throw new \RuntimeException("Erreur de syntaxe dans le template : {$e->getMessage()}", 0, $e);
     }
+}
+
 
     public function register(string $tag): void
     {
