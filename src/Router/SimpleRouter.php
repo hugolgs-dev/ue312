@@ -65,9 +65,9 @@ class SimpleRouter implements Router
 
     // On peut aussi utiliser directement le service Request si disponible
     $request = Request::createFromGlobals();
-    $path = $request->getPathInfo();  // Récupère uniquement le chemin de l'URL sans le domaine
+    $path = $request->getPathInfo();  // Récupèration du chemin de l'URL
 
-    // Verification de la route 
+    // Verification de l'existant de la route 
     if (!isset($this->routes[$path])) {
         throw new RouterException\RouteNotFoundException("La route '$path' n'a pas été trouvé.");
     }
