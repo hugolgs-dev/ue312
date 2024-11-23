@@ -1,0 +1,25 @@
+<!--
+Fichier qui sert de base pour les autres fichiers TWIG du projet
+Il faut ajouter un {# "{% extends "base.html.twig" %}" #} à tous les fichiers pour étender le fichier base.
+-->
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ title }}</title>
+</head>
+
+<body>
+<header>
+    <h1>Framework UE312 - Groupe Level</h1>
+</header>
+<main>
+    {% block content %}{% endblock %}
+</main>
+
+<footer>
+    <p>Micro-framework conçu pour le projet de groupe de l'UE 312</p>
+</footer>
+</body>
+</html>
