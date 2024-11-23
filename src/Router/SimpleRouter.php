@@ -91,7 +91,7 @@ class SimpleRouter implements Router
 
     // Obtenir la requête HTTP depuis Symfony
     $request = Request::createFromGlobals();
-    $path = $request->getPathInfo();  // Récupère uniquement le chemin de l'URL sans le domaine
+    $path = $request->getPathInfo();  // Récupèration du chemin de l'URL
 
     // Verification de la route 
     if (!isset($this->routes[$path])) {
