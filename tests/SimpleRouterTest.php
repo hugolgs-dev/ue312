@@ -7,6 +7,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Framework312\Template\Renderer;
 
+
 class SimpleRouterTest extends TestCase {
 
     // Vérifie si le constructeur fonctionne correctement avec un Renderer valide
@@ -68,6 +69,81 @@ class SimpleRouterTest extends TestCase {
         $this->assertEquals("<h1>Rendered Content</h1>", $response->getContent());
     }
     
+    public function testRegisterValidRoute()
+    {
+        // Création d'un mock de la classe Renderer
+        $renderer = $this->createMock(\Framework312\Template\Renderer::class);
+
+        // Initialisation du SimpleRouter avec le mock du renderer
+        $router = new SimpleRouter($renderer);
+
+        // Crée une classe anonyme qui étend BaseView
+        $mockViewClass = new class extends \Framework312\Router\View\BaseView {
+            // Implémentation de la méthode abstraite 'render'
+            public function render(\Framework312\Router\Request $request): \Symfony\Component\HttpFoundation\Response
+            {
+                return new \Symfony\Component\HttpFoundation\Response("Test content");
+            }
+
+             // Implémentation de la méthode 'render' pour retourner une réponse
+            public static function use_template(): bool
+            {
+                return false;
+            }
+        };
+
+        // Appelle la méthode `register` avec un chemin et une classe valide
+        $router->register('/test-route', $mockViewClass);
+
+        // Accède à la propriété privée `$routes` pour vérifier l'enregistrement
+        $reflection = new \ReflectionClass($router);
+        $routesProperty = $reflection->getProperty('routes');
+        $routesProperty->setAccessible(true);
+
+        // Vérifie que la route est bien enregistrée
+        $routes = $routesProperty->getValue($router);
+        $this->assertArrayHasKey('/test-route', $routes);
+        $this->assertInstanceOf(\Framework312\Router\Route::class, $routes['/test-route']);
+    }
+    public function testServe()
+    {
+        // Crée un mock pour le renderer
+        $renderer = $this->createMock(\Framework312\Template\Renderer::class);
+
+        // Initialisation du SimpleRouter avec le mock du renderer
+        $router = new SimpleRouter($renderer);
+
+        // Crée une classe anonyme pour simuler une vue
+        $mockViewClass = new class extends \Framework312\Router\View\BaseView {
+            public function render(\Framework312\Router\Request $request): \Symfony\Component\HttpFoundation\Response
+            {
+                return new \Symfony\Component\HttpFoundation\Response("Test content");
+            }
+
+            public static function use_template(): bool
+            {
+                return false;
+            }
+        };
+
+        // Enregistre une route
+        $router->register('/test-route', $mockViewClass);
+
+        // Simulation d'une requête HTTP
+        $_SERVER['REQUEST_URI'] = '/test-route';
+        $_SERVER['REQUEST_METHOD'] = 'GET';
+
+        // Capture la sortie générée par la méthode `serve`
+        ob_start();
+        $router->serve();
+        $output = ob_get_clean();
+
+        // Vérification que la réponse 
+        $this->assertStringContainsString('Test content', $output, "Le contenu de la réponse n'est pas celui attendu.");
+    }
+
+
+
 
 }
 
