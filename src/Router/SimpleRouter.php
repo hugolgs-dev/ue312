@@ -59,6 +59,7 @@ class Route
 class SimpleRouter implements Router
 {
     private Renderer $engine; //propriété
+    private array $routes = [];
 
     public function __construct(Renderer $engine)
     {
