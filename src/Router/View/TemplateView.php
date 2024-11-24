@@ -9,7 +9,8 @@ use Framework312\Template\TwigRenderer;
 
 class TemplateView extends BaseView
 {
-    private TwigRenderer $twigRenderer;
+    protected TwigRenderer $twigRenderer;
+    // Hugo : j'ai du le passer en protected pour m'en servir dans ErrorView
 
     // Constructeur
     public function __construct(TwigRenderer $twigRenderer){
