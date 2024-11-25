@@ -1,12 +1,26 @@
 # Micro-framework UE312 - Documentation
 
-
 ## Préambule
 
 Le but de ce document est de résumer notre approche du projet et notre réflexion
 commune tout au long de celui-ci. <br>
 
+## Répartition des rôles
+
+| Nom      | `TwigRenderer.php`                   | `SimpleRouter.php`              | Les vues               | Templates Twig               |
+|:---------|--------------------------------------|---------------------------------|------------------------|------------------------------|
+| Hudayfa  | Fonction `render()`                  | Fonction `call()`                 | Non                    | Non                          |
+| Hugo     | Non                                  | Non                             | Tous les fichiers `View` | Les trois fichier `.html.twig` |
+| Julien   | Non                                  | Fonctions `register()` et `serve()` | Non                    | Non                          |
+| Samantha | Contructeur et fonction `register()` | Contructeur                     | Non                    | Non                          |
+
+NB: chaque membre du groupe était responsable également des fichiers de tests en rapport avec leur code.
+
 ## Fonctionnement global du framework
+
+Ce framework fonctionne en reliant des routes à des contrôleurs qui affichent des vues. <br>
+Les vues sont générées avec TwigRenderer, qui sert à afficher des fichiers templates avec des données. 
+
 
 ## SimpleRouter.php
 
