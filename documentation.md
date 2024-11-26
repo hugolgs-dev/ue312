@@ -24,7 +24,19 @@ Les vues sont générées avec TwigRenderer, qui sert à afficher des fichiers t
 
 ## SimpleRouter.php
 
+
+- La fonction `call()` permet de vérifier que la classe hérite bien de `BaseView.php`. Elle permet ensuite d'instancier 
+cette vue et d'appeler la méthode `render` pour récupérer le contenu et l'envoyer. <br>
+- Le constructeur de la classe initialise celle-ci en vérifiant que `$engine` est bien une instance/sous-classe de `Renderer` <br>
+- La fonction `register()` enregistre une nouvelle route dans le routeur. <br>
+- La fonction `serve()` a pour rôle de traiter une requête HTTP et d'envoyer une réponse à celle-ci.
+
 ## TwigRenderer
+
+- Le constructeur de la classe a pour rôle de configurer un modèle de templates avec Twig. <br> `getTwig()` permet d'accéder à l'instance de `Twgi\Environment` car `$twig` est une propriété privée de `TwigRenderer`.
+- La méthode `render` utilise Twig pour charger un template et le retourner avec les données renseignées.
+- La fonction `register()` ajouter un dossier Twig, avec un alias. Cela lui permet d'accéder facilement aux fichiers du dossier Twig en utlisant cet alias plutôt que devoir spécifier tout le chemin.
+
 
 ## Les fichiers de vue
 
