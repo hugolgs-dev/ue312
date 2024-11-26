@@ -19,9 +19,11 @@ class ErrorView extends TemplateView
         503 => 'Erreur 503: Service non disponible',
     ];
 
+    // Variables pour stocker l'erreur HTTP rencontrée et son message associé
     private int $statusCode;
     private string $message;
 
+    // Constructeur qui associe ces variables aux données générées par l'erreur HTTP
     public function __construct(TwigRenderer $twigRenderer, int $statusCode, ?string $message){
 
         parent::__construct($twigRenderer);
@@ -30,6 +32,7 @@ class ErrorView extends TemplateView
         $this->message = $message ?? $this->errors[$this->statusCode] ?? 'Erreur inconnue';
     }
 
+    // Fonctionne qui génère le contenu HTML pour ensuite l'envoyer vers le fichier Twig
     public function render(Request $request): Response
     {
 
@@ -41,6 +44,7 @@ class ErrorView extends TemplateView
             'errors/error.html.twig'
         );
 
+        // Réponse générée avec le contenu HTML
         return new Response($html_content, $this->statusCode);
     }
 }
