@@ -10,6 +10,7 @@ use Symfony\Component\HttpFoundation\Response;
 
 class ErrorViewTest extends TestCase
 {
+    // Une fonction de test pour chaque erreur. Chaque fonction suit le même fonctionnement.
     public function testRenderError401(): void
     {
         // Mock du TwigRenderer pour tester le rendu de l'erreur
